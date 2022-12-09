@@ -40,6 +40,8 @@ public class Astronaut {
     public void move() {
         xpos = xpos + dx;
         ypos = ypos + dy;
+
+
  
     }
 }
