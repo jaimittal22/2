@@ -14,7 +14,10 @@ public class Astronaut {
     public int dy;                    //the speed of the hero in the y direction
     public int width;
     public int height;
-    public boolean isAlive;            //a boolean to denote if the hero is alive or dead.
+    public boolean isAlive;
+
+    public Rectangle rec;
+    //a boolean to denote if the hero is alive or dead.
 
 
     // METHOD DEFINITION SECTION
@@ -33,6 +36,7 @@ public class Astronaut {
         width = 60;
         height = 60;
         isAlive = true;
+        rec = new Rectangle(xpos, ypos, height, width);
  
     } // constructor
 
@@ -40,9 +44,22 @@ public class Astronaut {
     public void move() {
         xpos = xpos + dx;
         ypos = ypos + dy;
+        rec = new Rectangle(xpos, ypos, height, width);
 
 
  
+    }
+    public void wrap(){
+        if(xpos>1000){
+            xpos=0;
+        }
+        if (ypos>700){
+            ypos=0;
+        }
+
+        xpos = xpos + dx;
+        ypos = ypos + dy;
+        rec = new Rectangle(xpos, ypos, height, width);
     }
 }
 

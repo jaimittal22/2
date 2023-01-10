@@ -39,11 +39,17 @@ public class BasicGameApp implements Runnable {
    
 	public BufferStrategy bufferStrategy;
 	public Image astroPic;
+	public Image background;
+	public Image apolloPic;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	private Astronaut astro;
 	private Astronaut jack;
+
+	private Astronaut apollo;
+
+
 
 
    // Main method definition
@@ -64,11 +70,14 @@ public class BasicGameApp implements Runnable {
        
       //variable and objects
       //create (construct) the objects needed for the game and load up 
-		astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png"); //load the picture
+		astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png");
+		background = Toolkit.getDefaultToolkit().getImage("Creed.png");//load the picture
+		apolloPic = Toolkit.getDefaultToolkit().getImage("apollo.jpeg");
 		astro = new Astronaut(10, 100);
 		jack = new Astronaut(300, 40);
-		jack.dy=1;
-		jack.dx=0;
+		apollo = new Astronaut(200, 70);
+		jack.dy=5;
+		jack.dx=5;
 
 
 	}// BasicGameApp()
@@ -91,13 +100,47 @@ public class BasicGameApp implements Runnable {
          pause(20); // sleep for 10 ms
 		}
 	}
+	public void change()
+	{
+		if(astro.rec.intersects(jack.rec));
 
+		System.out. println("crash");
+		astro.dx = 1*astro.dx;
+		astro.dy = -astro.dy;
+		jack.dx = 1*jack.dx;
+		jack.dy = -jack.dy;
+	}
+
+
+	public void crash() {
+		if (jack.rec.intersects(astro.rec)) {
+			System.out.println("crash");
+			astro.dx = -1 * astro.dx;
+			astro.dy = astro.dy;
+			jack.dx = -1 * jack.dx;
+			jack.dy = jack.dy;
+
+		}
+	}
+	public void size()
+	{
+		if(astro.rec.intersects(jack.rec))
+		{
+			astro.height = 3*astro.height;
+			astro.width = 3*astro.width;
+			jack.height = 3*jack.height;
+			jack.width = 3*jack.width;
+		}
+	}
 
 	public void moveThings()
 	{
       //calls the move( ) code in the objects
-		astro.move();
-		jack.move();
+		astro.wrap();
+		jack.wrap();
+		apollo.wrap();
+		crash();
+
 
 	}
 	
@@ -148,11 +191,17 @@ public class BasicGameApp implements Runnable {
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
       //draw the image of the astronaut
+		g.drawImage(background,0,0,WIDTH,HEIGHT,null);
 		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
 		g.drawImage(astroPic, jack.xpos, jack.ypos, jack.width, jack.height, null);
-
+		g.drawImage(apolloPic, apollo.xpos, apollo.ypos, apollo.width, apollo.height, null);
+g.draw(new Rectangle(astro.xpos,astro.ypos,astro.width,astro.height));
+		g.draw(new Rectangle(jack.xpos, jack.ypos, jack.width, jack.height));
+		g.draw(new Rectangle(apollo.xpos, apollo.ypos, apollo.width, apollo.height));
 		g.dispose();
 
 		bufferStrategy.show();
 	}
+
+
 }
