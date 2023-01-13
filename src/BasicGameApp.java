@@ -112,14 +112,16 @@ public class BasicGameApp implements Runnable {
 	}
 
 
-	public void crash() {
-		if (jack.rec.intersects(astro.rec)) {
-			System.out.println("crash");
-			astro.dx = -1 * astro.dx;
-			astro.dy = astro.dy;
-			jack.dx = -1 * jack.dx;
-			jack.dy = jack.dy;
-
+	public void crash()
+	{
+		if(astro.rec.intersects(jack.rec) &&jack.isAlive == true &&astro.isAlive == true)
+		{
+			System.out. println("crash");
+			astro.dx = 1*astro.dx;
+			astro.dy = -astro.dy;
+			jack.dx = 1*jack.dx;
+			jack.dy = -jack.dy;
+			jack.isAlive = false;
 		}
 	}
 	public void size()
@@ -190,18 +192,19 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
-      //draw the image of the astronaut
-		g.drawImage(background,0,0,WIDTH,HEIGHT,null);
+		//draw the image of the astronaut
+		g.drawImage(background, 0,0,WIDTH, HEIGHT, null);
+		if(jack.isAlive == true) {
+			g.drawImage(astroPic, jack.xpos, jack.ypos, jack.width, jack.height, null);
+			g.draw(new Rectangle(jack.xpos, jack.ypos, jack.width, jack.height));
+		}
 		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
-		g.drawImage(astroPic, jack.xpos, jack.ypos, jack.width, jack.height, null);
-		g.drawImage(apolloPic, apollo.xpos, apollo.ypos, apollo.width, apollo.height, null);
-g.draw(new Rectangle(astro.xpos,astro.ypos,astro.width,astro.height));
-		g.draw(new Rectangle(jack.xpos, jack.ypos, jack.width, jack.height));
-		g.draw(new Rectangle(apollo.xpos, apollo.ypos, apollo.width, apollo.height));
+		g.drawImage(apolloPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+
+		g.draw(new Rectangle(astro.xpos, astro.ypos, astro.width, astro.height));
+//		g.draw(new Rectangle(jack.xpos, jack.ypos, jack.width, jack.height));
 		g.dispose();
 
 		bufferStrategy.show();
 	}
-
-
 }
